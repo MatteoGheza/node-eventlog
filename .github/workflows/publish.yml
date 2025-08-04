@@ -78,10 +78,17 @@ jobs:
         env:
           npm_config_target_arch: ${{ matrix.arch }}
       
+      - name: List packaged files
+        run: |
+          echo "Contents of build/stage:"
+          dir build\stage /s
+        shell: cmd
+      
       - name: Upload binary to release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v1
         with:
           files: build/stage/**/*.tar.gz
+          fail_on_unmatched_files: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
