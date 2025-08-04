@@ -1,7 +1,7 @@
 const { EventLog } = require('./index.js');
 
 const Test = async () => {
-    console.log('Testing node-eventlog...');
+    console.log('Testing @matteogheza/node-eventlog...');
     
     const logger = new EventLog('TestApplication');
     

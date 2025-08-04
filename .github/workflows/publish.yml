@@ -1,0 +1,101 @@
+name: Publish to NPM
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci
+      - run: npm test
+
+  build-binaries:
+    needs: build
+    strategy:
+      matrix:
+        include:
+          - os: windows-2019
+            arch: x64
+            node-version: '18.x'
+            napi-version: 3
+          - os: windows-2019
+            arch: x64
+            node-version: '18.x'
+            napi-version: 4
+          - os: windows-2019
+            arch: x64
+            node-version: '20.x'
+            napi-version: 5
+          - os: windows-2019
+            arch: x64
+            node-version: '20.x'
+            napi-version: 6
+          - os: windows-2022
+            arch: x64
+            node-version: '20.x'
+            napi-version: 7
+          - os: windows-2022
+            arch: x64
+            node-version: '22.x'
+            napi-version: 8
+          - os: windows-2019
+            arch: ia32
+            node-version: '18.x'
+            napi-version: 3
+          - os: windows-2019
+            arch: ia32
+            node-version: '20.x'
+            napi-version: 6
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          architecture: ${{ matrix.arch }}
+      
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Build binary for NAPI v${{ matrix.napi-version }}
+        run: npx node-pre-gyp rebuild --target_arch=${{ matrix.arch }} --napi_build_version=${{ matrix.napi-version }}
+        env:
+          npm_config_target_arch: ${{ matrix.arch }}
+      
+      - name: Package binary
+        run: npx node-pre-gyp package --target_arch=${{ matrix.arch }} --napi_build_version=${{ matrix.napi-version }}
+        env:
+          npm_config_target_arch: ${{ matrix.arch }}
+      
+      - name: Upload binary to release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: build/stage/**/*.tar.gz
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  publish-npm:
+    needs: [build, build-binaries]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          registry-url: 'https://registry.npmjs.org'
+      - run: npm ci
+      - run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

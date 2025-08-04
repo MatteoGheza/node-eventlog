@@ -1,5 +1,15 @@
-# node-eventlog
+# @matteogheza/node-eventlog
 _An event log utility for Windows 10 & Server 2012/2016 that actually works_
+
+**This is an updated version of the original [node-eventlog](https://github.com/xSlither/node-eventlog) by Chase M. Allen, updated to use node-addon-api v8.5.0 for better compatibility with modern Node.js versions.**
+
+### What's New in v2.0.0
+
+- ✅ Updated to node-addon-api v8.5.0 (from v2.0.0)
+- ✅ Support for Node.js versions 18, 20, and 22
+- ✅ Support for NAPI versions 3-8
+- ✅ Improved error handling and stability
+- ✅ Modern build system with @mapbox/node-pre-gyp
 
 `node-eventlog` is a lightweight C++ based module for Node.js, exclusive for the Windows operating systems, that provides functionality for writing entries to the Event Logs.
 
@@ -15,7 +25,7 @@ I made installing this package really simple utilizing a really cool module call
 
 To install, simply use the npm package:
 ```batch
-npm i node-eventlog
+npm i @matteogheza/node-eventlog
 ```
 
 However, if there is an issue installing the pre-compiled binaries (such as being behind a corporate firewall), it will fallback to compiling from the source, which means you need to have [windows-build-tools](https://www.npmjs.com/package/windows-build-tools) or Visual Studio & Python installed.
@@ -42,13 +52,13 @@ The `.log()` method will write a new entry to the _Application_ logs. You can op
 > _Note_: the `.log()` method is **_Asynchronous_**  
 
 ```javascript
-const { EventLog } = require(‘node-eventlog’);
+const { EventLog } = require("@matteogheza/node-eventlog");
 
-const AppName = ‘MyTestApp’;
+const AppName = 'MyTestApp';
 
 const Test = async () => {
     const logger = new EventLog(AppName);
-    console.log(await logger.log(‘Test Message’, ‘info’, 9999));
+    console.log(await logger.log('Test Message', 'info', 9999));
 };
 
 Test();
