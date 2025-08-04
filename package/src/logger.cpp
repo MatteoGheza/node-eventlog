@@ -28,7 +28,8 @@ logger::EventLog::EventLog(const Napi::CallbackInfo& info) : Napi::ObjectWrap<lo
     Napi::HandleScope scope(env);
 
     if (info.Length() < 1 || !info[0].IsString()) {
-        Napi::TypeError::New(env, "Invalid Parameters");
+        Napi::TypeError::New(env, "Invalid Parameters").ThrowAsJavaScriptException();
+        return;
     }
 
     source = info[0].As<Napi::String>();
@@ -36,14 +37,15 @@ logger::EventLog::EventLog(const Napi::CallbackInfo& info) : Napi::ObjectWrap<lo
     std::wstring wideSource(source.begin(), source.end());
     eventLogHandle_ = RegisterEventSourceW(NULL, wideSource.c_str());
     if (!eventLogHandle_) {
-        Napi::TypeError::New(env, "Unable to register event source: " + logger::getLastErrorAsString());
+        Napi::TypeError::New(env, "Unable to register event source: " + logger::getLastErrorAsString()).ThrowAsJavaScriptException();
+        return;
     }
 }
 
 Napi::Object logger::EventLog::NewInstance(Napi::Env env, Napi::Value arg) {
     Napi::EscapableHandleScope scope(env);
     Napi::Object obj = constructor.New({ arg });
-    return scope.Escape(napi_value(obj)).ToObject();
+    return scope.Escape(obj).As<Napi::Object>();
 }
 
 Napi::Value logger::EventLog::log(const Napi::CallbackInfo& info) {
@@ -66,7 +68,8 @@ bool logger::log(logger::Severity severity, const std::string& message, int even
     WORD type;
 
     if (!parseSeverity(severity, &type)) {
-        Napi::TypeError::New(env, "Failed to parse severity");
+        Napi::TypeError::New(env, "Failed to parse severity").ThrowAsJavaScriptException();
+        return false;
     }
 
     auto ret = ReportEventA(handle, type, category, eventId, user, numStrings, binDataSize, strings, binData);
@@ -103,7 +106,8 @@ Napi::Promise logger::logWorker::GetPromise() {
 Napi::Value logger::log_wrapped(const Napi::CallbackInfo& info, logger::EventLog* eventLog) {
     Napi::Env env = info.Env();
     if (info.Length() < 3 || !info[0].IsNumber() || !info[1].IsString() || !info[2].IsNumber()) {
-        Napi::TypeError::New(env, "Invalid Parameters");
+        Napi::TypeError::New(env, "Invalid Parameters").ThrowAsJavaScriptException();
+        return env.Undefined();
     }
 
     Napi::Number severity = info[0].As<Napi::Number>();

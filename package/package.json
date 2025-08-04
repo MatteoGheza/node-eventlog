@@ -1,16 +1,26 @@
 {
   "name": "node-eventlog",
-  "version": "1.0.2",
+  "version": "2.0.0",
   "description": "An event log utility for Windows 10 & Server 2012/2016 that actually works",
   "main": "index.js",
   "gypfile": true,
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "binding.gyp",
+    "src/**/*",
+    "lib/**/*"
+  ],
   "scripts": {
-    "install": "node-pre-gyp install --fallback-to-build --target_arch=x64 --target_platform=win32"
+    "install": "node-pre-gyp install --fallback-to-build"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/xSlither/node-eventlog.git"
+    "url": "git+https://github.com/MatteoGheza/node-eventlog.git"
   },
+  "os": [
+    "win32"
+  ],
   "keywords": [
     "node",
     "windows",
@@ -21,21 +31,26 @@
   "author": "Chase M. Allen",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/xSlither/node-eventlog/issues"
+    "url": "https://github.com/MatteoGheza/node-eventlog/issues"
   },
-  "homepage": "https://github.com/xSlither/node-eventlog#readme",
+  "homepage": "https://github.com/MatteoGheza/node-eventlog#readme",
   "dependencies": {
-    "node-addon-api": "^2.0.0",
-    "node-pre-gyp": "^0.17.0"
+    "node-addon-api": "^8.5.0",
+    "@mapbox/node-pre-gyp": "^2.0.0"
   },
   "binary": {
     "module_name": "node-eventlog",
     "module_path": "./lib/binding/napi-v{napi_build_version}",
     "package_name": "{platform}-{arch}-napi-v{napi_build_version}.tar.gz",
-    "host": "https://github.com/xSlither/node-eventlog/releases/download/",
+    "host": "https://github.com/MatteoGheza/node-eventlog/releases/download/",
     "remote_path": "{version}",
     "napi_versions": [
-      2
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
     ]
   }
 }

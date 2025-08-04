@@ -31,12 +31,10 @@
 		  }]
 	  ],
 
-	  'defines': [
-		  'NAPI_DISABLE_CPP_EXCEPTIONS', 
-		  '_HAS_EXCEPTIONS'
-	   ],
-
-	   "msvs_settings": {
+	   'defines': [
+		   'NAPI_CPP_EXCEPTIONS',
+		   '_HAS_EXCEPTIONS'
+	   ],	   "msvs_settings": {
 		   "VCCLCompilerTool": {
 			   "ExceptionHandling": 1,
 			   "AdditionalOptions": [ '-std:c++17', '/MP' ]
