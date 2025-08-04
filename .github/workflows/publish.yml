@@ -22,35 +22,35 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: windows-2019
+          - os: windows-latest
             arch: x64
             node-version: '18.x'
             napi-version: 3
-          - os: windows-2019
+          - os: windows-latest
             arch: x64
             node-version: '18.x'
             napi-version: 4
-          - os: windows-2019
+          - os: windows-latest
             arch: x64
             node-version: '20.x'
             napi-version: 5
-          - os: windows-2019
+          - os: windows-latest
             arch: x64
             node-version: '20.x'
             napi-version: 6
-          - os: windows-2022
+          - os: windows-latest
             arch: x64
             node-version: '20.x'
             napi-version: 7
-          - os: windows-2022
+          - os: windows-latest
             arch: x64
             node-version: '22.x'
             napi-version: 8
-          - os: windows-2019
+          - os: windows-latest
             arch: ia32
             node-version: '18.x'
             napi-version: 3
-          - os: windows-2019
+          - os: windows-latest
             arch: ia32
             node-version: '20.x'
             napi-version: 6
