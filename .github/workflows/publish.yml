@@ -52,8 +52,8 @@ jobs:
             napi-version: 3
           - os: windows-latest
             arch: ia32
-            node-version: '20.x'
-            napi-version: 6
+            node-version: '18.x'
+            napi-version: 4
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
