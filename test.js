@@ -1,4 +1,4 @@
-const { EventLog } = require('../package');
+const { EventLog } = require('./index.js');
 
 const Test = async () => {
     console.log('Testing node-eventlog...');

@@ -12,7 +12,8 @@
     "lib/**/*"
   ],
   "scripts": {
-    "install": "node-pre-gyp install --fallback-to-build"
+    "install": "node-pre-gyp install --fallback-to-build",
+    "test": "node test.js"
   },
   "repository": {
     "type": "git",
