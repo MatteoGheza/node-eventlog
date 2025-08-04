@@ -89,7 +89,7 @@ jobs:
       - name: Upload binary to release
         uses: softprops/action-gh-release@v1
         with:
-          files: build/stage/${{ github.event.release.tag_name }}/win32-${{ matrix.arch }}-napi-v${{ matrix.napi-version }}.tar.gz
+          files: build/stage/*/win32-${{ matrix.arch }}-napi-v${{ matrix.napi-version }}.tar.gz
           fail_on_unmatched_files: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
