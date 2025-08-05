@@ -1,6 +1,6 @@
 {
   "name": "@matteogheza/node-eventlog",
-  "version": "2.0.8",
+  "version": "2.0.9",
   "description": "An event log utility for Windows 10 & Server 2012/2016 that actually works - Updated to node-addon-api v8",
   "main": "index.js",
   "gypfile": true,
@@ -21,9 +21,6 @@
     "type": "git",
     "url": "git+https://github.com/MatteoGheza/node-eventlog.git"
   },
-  "os": [
-    "win32"
-  ],
   "keywords": [
     "node",
     "windows",
